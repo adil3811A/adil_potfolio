@@ -28,7 +28,6 @@ class Experience extends StatelessComponent {
           ]),
           div(classes: 'lg:col-span-4 flex flex-col gap-space-md', [
             _education(),
-            _sideProjects(),
           ]),
         ]),
       ],
@@ -107,36 +106,6 @@ class Experience extends StatelessComponent {
           ),
           span(classes: 'font-label-md text-label-md text-primary', [.text(education.period)]),
         ]),
-      ],
-    );
-  }
-
-  Component _sideProjects() {
-    return div(
-      classes: 'p-space-lg rounded-3xl bg-surface-container-lowest shadow-sm flex flex-col '
-          'gap-space-md',
-      [
-        div(classes: 'flex items-center gap-2', [
-          icon('rocket_launch', classes: 'text-[20px] text-primary'),
-          h3(
-            classes: 'font-title-md text-title-md text-on-surface font-bold',
-            [.text('Built after hours')],
-          ),
-        ]),
-        for (final project in sideProjects)
-          div(classes: 'flex flex-col gap-2 pb-space-sm last:pb-0', [
-            span(
-              classes: 'font-label-md text-label-md text-on-surface font-bold',
-              [.text(project.title)],
-            ),
-            p(
-              classes: 'font-body-sm text-body-sm text-on-surface-variant leading-relaxed',
-              [.text(project.body)],
-            ),
-            div(classes: 'flex flex-wrap gap-1.5', [
-              for (final tag in project.tags) chip(tag, size: 'px-2.5 py-1'),
-            ]),
-          ]),
       ],
     );
   }

@@ -147,7 +147,7 @@ const pressfitApps = [
   ),
 ];
 
-/// A card in "What I Do" or "Skills & Superpowers".
+/// A card in the "Skills & Superpowers" grid.
 class Capability {
   const Capability({
     required this.icon,
@@ -163,36 +163,6 @@ class Capability {
   final String body;
   final List<String> tags;
 }
-
-const services = [
-  Capability(
-    icon: 'smartphone',
-    tone: Tone.secondary,
-    title: 'I build apps',
-    body:
-        'I design and build mobile apps from scratch for both Android and iOS, on a single '
-        'Flutter codebase structured with clean architecture so it stays maintainable.',
-    tags: ['Flutter & Dart', 'Bloc / Riverpod', 'Clean Architecture'],
-  ),
-  Capability(
-    icon: 'rocket_launch',
-    tone: Tone.primary,
-    title: 'I launch them',
-    body:
-        'I take apps all the way to the store — signing, release builds, review compliance, '
-        'and automated delivery through GitHub Actions to Play Store and TestFlight.',
-    tags: ['Play Console', 'App Store Connect', 'CI/CD'],
-  ),
-  Capability(
-    icon: 'build',
-    tone: Tone.tertiary,
-    title: 'I keep them running',
-    body:
-        'I maintain five live client apps day to day: triaging user-reported issues, shipping '
-        'new features, and pushing fixes through to store release.',
-    tags: ['Bug Triage', 'Feature Work', 'Release Ownership'],
-  ),
-];
 
 const skills = [
   Capability(
@@ -292,26 +262,57 @@ const education = Education(
   '2022 — 2025',
 );
 
-/// Things built outside work hours.
+/// Something built outside client work, with the repo to read.
 class SideProject {
-  const SideProject(this.title, this.body, this.tags);
+  const SideProject({
+    required this.title,
+    required this.icon,
+    required this.body,
+    required this.tags,
+    this.repo = '',
+    this.note = '',
+  });
 
   final String title;
+  final String icon;
   final String body;
   final List<String> tags;
+  final String repo;
+
+  /// Short qualifier shown beside the title (platform, status).
+  final String note;
 }
 
 const sideProjects = [
   SideProject(
-    'Mobile Recipe Engine',
-    'Recipe discovery app on the Spoonacular API with image caching via Coil, Firebase '
-        'Authentication and Firestore for persistent user data.',
-    ['Kotlin', 'Jetpack Compose', 'Retrofit', 'MVVM'],
+    title: 'Recipe App',
+    icon: 'restaurant',
+    body:
+        'Recipe discovery on the Spoonacular API — one-tap Google sign-in, favourites saved to '
+        'Firestore, a nutrition breakdown per recipe and Coil-cached imagery. Clean architecture '
+        'with manual dependency injection and Codemagic builds.',
+    tags: ['Kotlin', 'Jetpack Compose', 'Retrofit', 'Firebase'],
+    repo: 'https://github.com/adil3811A/Recipe-App',
+    note: 'Android',
   ),
   SideProject(
-    'Real-Time Communication App',
-    'Messaging app built on the Firebase Realtime Database with snapshot listeners and a '
+    title: 'This portfolio site',
+    icon: 'code_blocks',
+    body:
+        'The page you are reading. Written in Dart with Jaspr and pre-rendered to static HTML, '
+        'styled from design tokens exported out of a Stitch design system — no client framework, '
+        'under a megabyte of output.',
+    tags: ['Dart', 'Jaspr', 'Tailwind v4', 'Static Site'],
+    repo: 'https://github.com/adil3811A/adil_potfolio',
+    note: 'Web',
+  ),
+  SideProject(
+    title: 'Real-Time Communication App',
+    icon: 'forum',
+    body:
+        'Messaging app built on the Firebase Realtime Database with snapshot listeners and a '
         'responsive Compose UI tuned for low-latency updates.',
-    ['Jetpack Compose', 'Firebase', 'MVVM'],
+    tags: ['Jetpack Compose', 'Firebase', 'MVVM'],
+    note: 'Android',
   ),
 ];

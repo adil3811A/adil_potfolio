@@ -27,6 +27,7 @@ class Projects extends StatelessComponent {
         _pannaseche(),
         _pressfit(),
         _payments(),
+        _alsoBuilt(),
       ],
     );
   }
@@ -241,14 +242,15 @@ class Projects extends StatelessComponent {
           [.text(app.body)],
         ),
         div(classes: 'flex flex-wrap gap-1.5 pt-1', [
-          if (app.play.isNotEmpty) _storeLink('Google Play', 'shop', app.play),
-          if (app.appStore.isNotEmpty) _storeLink('App Store', 'phone_iphone', app.appStore),
+          if (app.play.isNotEmpty) _linkPill('Google Play', 'shop', app.play),
+          if (app.appStore.isNotEmpty) _linkPill('App Store', 'phone_iphone', app.appStore),
         ]),
       ],
     );
   }
 
-  Component _storeLink(String label, String iconName, String href) {
+  /// Small outbound link pill — store listings and repos both use it.
+  Component _linkPill(String label, String iconName, String href) {
     return a(
       href: href,
       target: Target.blank,
@@ -329,6 +331,69 @@ class Projects extends StatelessComponent {
       ],
       actions: [
         quietButton('Ask about integrations', '#contact', 'arrow_forward'),
+      ],
+    );
+  }
+
+  // --- Side projects -------------------------------------------------------
+
+  /// Personal builds, each with the repo to read.
+  Component _alsoBuilt() {
+    return div(
+      classes: 'flex flex-col gap-space-md border-t border-outline-variant/40 pt-space-lg',
+      [
+        div(classes: 'flex flex-wrap items-center justify-between gap-space-sm', [
+          div(classes: 'flex items-center gap-2', [
+            icon('build', classes: 'text-[18px] text-primary'),
+            span(
+              classes: 'font-label-md text-label-md text-on-surface-variant uppercase '
+                  'tracking-wider',
+              [.text('Also built')],
+            ),
+          ]),
+          p(
+            classes: 'font-body-sm text-body-sm text-outline',
+            [.text('Side projects, source included.')],
+          ),
+        ]),
+        div(classes: 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3', [
+          for (final project in sideProjects) _sideProjectCard(project),
+        ]),
+      ],
+    );
+  }
+
+  Component _sideProjectCard(SideProject project) {
+    return div(
+      classes: 'p-4 rounded-2xl bg-surface-container-low flex flex-col gap-2 h-full',
+      [
+        div(classes: 'flex items-center justify-between gap-2', [
+          div(classes: 'flex items-center gap-2.5 min-w-0', [
+            div(
+              classes: 'w-9 h-9 shrink-0 rounded-xl bg-surface-container-lowest text-primary '
+                  'flex items-center justify-center shadow-xs',
+              [icon(project.icon, classes: 'text-[20px]')],
+            ),
+            span(
+              classes: 'font-label-md text-label-md text-on-surface font-bold',
+              [.text(project.title)],
+            ),
+          ]),
+          if (project.note.isNotEmpty)
+            span(
+              classes: 'shrink-0 font-label-sm text-label-sm text-on-surface-variant',
+              [.text(project.note)],
+            ),
+        ]),
+        p(
+          classes: 'font-body-sm text-body-sm text-on-surface-variant leading-relaxed grow',
+          [.text(project.body)],
+        ),
+        div(classes: 'flex flex-wrap gap-1.5', [
+          for (final tag in project.tags) chip(tag, size: 'px-2.5 py-1'),
+        ]),
+        if (project.repo.isNotEmpty)
+          div(classes: 'pt-1', [_linkPill('View on GitHub', 'code', project.repo)]),
       ],
     );
   }

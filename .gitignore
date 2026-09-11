@@ -35,3 +35,6 @@ migrate_working_dir/
 
 # Node tooling for Tailwind
 node_modules/
+
+# Firebase local state
+.firebase/

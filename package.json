@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  },
+  "name": "adil-portfolio-styles",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i ./styles/tailwind.css -o ./web/styles.css --minify",
+    "watch:css": "tailwindcss -i ./styles/tailwind.css -o ./web/styles.css --watch"
+  }
+}

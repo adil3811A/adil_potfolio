@@ -6,10 +6,10 @@ import 'ui.dart';
 
 /// Floating "Ask AI about Adil" assistant, from the Stitch design.
 ///
-/// This is the interface only — there is no model behind it yet. The opening
-/// exchange is scripted, and anything a visitor sends gets a reply that says so
-/// and hands them Adil's real contact details. See the enhancement script in
-/// `app.dart` for the behaviour.
+/// The opening exchange is scripted as a quick guide; everything a visitor
+/// sends goes to the Gemini-backed API at [Profile.chatApi]. If that call fails
+/// the assistant says so and hands over Adil's real contact details. The
+/// behaviour lives in the enhancement script in `app.dart`.
 class ChatWidget extends StatelessComponent {
   const ChatWidget({super.key});
 
@@ -18,8 +18,12 @@ class ChatWidget extends StatelessComponent {
     return div(
       id: 'chat-widget',
       classes: 'fixed bottom-20 lg:bottom-6 right-4 lg:right-6 z-50 flex flex-col items-end gap-3',
-      // The script reads these so the canned reply can link to the real inbox.
-      attributes: {'data-email': Profile.email, 'data-whatsapp': Profile.whatsapp},
+      // Read by the enhancement script in app.dart.
+      attributes: {
+        'data-api': Profile.chatApi,
+        'data-email': Profile.email,
+        'data-whatsapp': Profile.whatsapp,
+      },
       [
         _panel(),
         _launcher(),
@@ -75,7 +79,7 @@ class ChatWidget extends StatelessComponent {
               classes: 'font-body-sm text-[11px] text-on-primary/80 flex items-center gap-1',
               [
                 span(classes: 'w-1.5 h-1.5 rounded-full bg-primary-fixed animate-pulse', []),
-                .text('Scripted preview — live answers coming soon'),
+                .text('Ask about Adil’s work & availability'),
               ],
             ),
           ]),
@@ -216,7 +220,7 @@ class ChatWidget extends StatelessComponent {
           type: ButtonType.submit,
           classes: 'w-10 h-10 shrink-0 rounded-full bg-primary hover:bg-primary-container '
               'text-on-primary flex items-center justify-center transition-all shadow-sm '
-              'cursor-pointer',
+              'cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed',
           attributes: {'aria-label': 'Send'},
           [icon('send', classes: 'text-[18px]')],
         ),

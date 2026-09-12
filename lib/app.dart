@@ -71,6 +71,7 @@ const _enhancements = r'''
   const launcher = document.getElementById('chat-launcher');
   if (!widget || !panel || !chatLog || !chatForm || !chatInput) return;
 
+  const api = widget.dataset.api;
   const email = widget.dataset.email;
   const whatsapp = widget.dataset.whatsapp;
 
@@ -112,12 +113,42 @@ const _enhancements = r'''
     scrollToEnd();
   };
 
-  const addReply = (question) => {
+  // Typing indicator while the model thinks.
+  const addTyping = () => {
+    const row = node('div', 'flex items-start gap-2.5');
+    const avatar = node('div', 'w-7 h-7 rounded-xl bg-primary-fixed shrink-0 flex items-center justify-center text-primary');
+    avatar.appendChild(node('span', 'material-symbols-outlined text-[16px]', 'smart_toy'));
+    const bubble = node('div', 'p-3.5 rounded-2xl rounded-tl-none bg-surface-container-lowest shadow-xs flex items-center gap-1');
+    ['animate-bounce', 'animate-bounce [animation-delay:-0.15s]', 'animate-bounce [animation-delay:-0.3s]'].forEach((motion) => {
+      bubble.appendChild(node('span', 'w-1.5 h-1.5 rounded-full bg-outline ' + motion));
+    });
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    chatLog.appendChild(row);
+    scrollToEnd();
+    return row;
+  };
+
+  const botBubble = () => {
     const row = node('div', 'flex items-start gap-2.5');
     const avatar = node('div', 'w-7 h-7 rounded-xl bg-primary-fixed shrink-0 flex items-center justify-center text-primary');
     avatar.appendChild(node('span', 'material-symbols-outlined text-[16px]', 'smart_toy'));
     const bubble = node('div', 'p-3.5 rounded-2xl rounded-tl-none bg-surface-container-lowest shadow-xs text-on-surface text-body-sm leading-relaxed max-w-[85%] flex flex-col gap-2');
-    bubble.appendChild(node('span', '', 'The live assistant is not wired up yet, so I cannot answer that one automatically — but Adil reads everything himself. Send it straight to him:'));
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    chatLog.appendChild(row);
+    return bubble;
+  };
+
+  const addAnswer = (text) => {
+    botBubble().appendChild(node('span', '', text));
+    scrollToEnd();
+  };
+
+  // Used whenever the answer does not arrive — the question still gets to Adil.
+  const addFallback = (question, reason) => {
+    const bubble = botBubble();
+    bubble.appendChild(node('span', '', reason || 'I could not reach the assistant just now. Adil reads everything himself, so send it straight to him:'));
 
     const links = node('div', 'flex flex-wrap gap-1.5 pt-1');
     const pill = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant hover:text-primary font-label-sm text-label-sm transition-colors';
@@ -133,19 +164,50 @@ const _enhancements = r'''
     links.appendChild(chat);
 
     bubble.appendChild(links);
-    row.appendChild(avatar);
-    row.appendChild(bubble);
-    chatLog.appendChild(row);
     scrollToEnd();
   };
 
-  chatForm.addEventListener('submit', (event) => {
+  const sendButton = chatForm.querySelector('button[type="submit"]');
+  let pending = false;
+
+  chatForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const question = chatInput.value.trim();
-    if (!question) return;
-    addVisitorMessage(question);
+    if (!question || pending) return;
+
+    pending = true;
+    if (sendButton) sendButton.disabled = true;
     chatInput.value = '';
-    setTimeout(() => addReply(question), 450);
+    addVisitorMessage(question);
+    const typing = addTyping();
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 45000);
+
+    try {
+      const response = await fetch(api + '/api/chat/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: question }),
+        signal: controller.signal,
+      });
+      const payload = await response.json().catch(() => null);
+      typing.remove();
+      if (response.ok && payload && payload.text) {
+        addAnswer(payload.text);
+      } else if (response.status === 429) {
+        addFallback(question, 'I have hit my request limit for the moment — give it a minute and ask again. Or send it straight to Adil:');
+      } else {
+        addFallback(question);
+      }
+    } catch (error) {
+      typing.remove();
+      addFallback(question);
+    } finally {
+      clearTimeout(timeout);
+      if (sendButton) sendButton.disabled = false;
+      pending = false;
+    }
   });
 })();
 ''';

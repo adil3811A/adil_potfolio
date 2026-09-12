@@ -17,6 +17,10 @@ class Profile {
   static const github = 'https://github.com/adil3811A';
   static const linkedin = 'https://www.linkedin.com/in/adil3811k/';
 
+  /// Gemini-backed chat API behind the assistant widget.
+  /// `POST {chatApi}/api/chat/sync` -> `{ text, offTopic? }`.
+  static const chatApi = 'https://chat-bot-potfolio-git-main-adil3811as-projects.vercel.app/';
+
   /// Square crop used in the hero card and as the social-preview image.
   /// Both crops are generated from `assets/portrait-source.png`.
   static const portrait = 'images/portrait.jpg';

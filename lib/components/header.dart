@@ -84,7 +84,7 @@ class SiteHeader extends StatelessComponent {
         ],
       ),
       img(
-        src: Profile.portrait,
+        src: Profile.avatar,
         alt: Profile.name,
         classes: 'w-9 h-9 rounded-full object-cover ring-2 ring-primary/20',
       ),

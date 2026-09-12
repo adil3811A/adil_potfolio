@@ -53,10 +53,12 @@ All copy is drawn from Adil's résumé and lives in `lib/constants/profile.dart`
 education and side projects. Project write-ups and the device mockups are in
 `lib/sections/projects.dart`.
 
-Still to fill in (both marked `TODO` in `profile.dart`):
+### Portrait
 
-- `Profile.portrait` — currently AI-generated placeholder art from the Stitch
-  design. Drop a real photo in `web/images/` and point this at it.
-- `Profile.pannasechePlayStore` / `pannasecheAppStore` — the live store
-  listings. While they are empty the project card links to the contact section
-  instead of the stores.
+`assets/portrait-source.png` is the full-resolution original and is **not**
+published. Two crops are generated from it into `web/images/`:
+
+- `portrait.jpg` — 900×900 square for the hero card and the social preview.
+- `avatar.jpg` — 320×320 head-and-shoulders for the header and About circles.
+
+To change the photo, replace the source and regenerate both crops.

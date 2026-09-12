@@ -17,9 +17,12 @@ class Profile {
   static const github = 'https://github.com/adil3811A';
   static const linkedin = 'https://www.linkedin.com/in/adil3811k/';
 
-  /// TODO: replace with a real photo — this is still the AI-generated
-  /// placeholder that came with the Stitch design.
-  static const portrait = 'images/portrait.png';
+  /// Square crop used in the hero card and as the social-preview image.
+  /// Both crops are generated from `assets/portrait-source.png`.
+  static const portrait = 'images/portrait.jpg';
+
+  /// Tight head-and-shoulders crop for the small circles (header, About).
+  static const avatar = 'images/avatar.jpg';
 
   /// Live store listings for PannaseCHE.
   static const pannasechePlayStore =
@@ -177,6 +180,13 @@ const dial4242Apps = [
     play: 'https://play.google.com/store/apps/details?id=com.ambulance.dial4242.owner',
     note: '5.0 ★',
   ),
+];
+
+/// Prompts offered in the assistant widget: (chip label, question it fills in).
+const chatSuggestions = [
+  ('Flutter state management?', 'What is his experience with Flutter state management?'),
+  ('Remote timezone overlap?', 'Can Adil work with US / European remote time zones?'),
+  ('Notice period & expectations', 'What is his notice period and expected compensation?'),
 ];
 
 /// A card in the "Skills & Superpowers" grid.

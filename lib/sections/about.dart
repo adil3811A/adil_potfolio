@@ -29,7 +29,7 @@ class About extends StatelessComponent {
         div(classes: 'flex flex-col gap-space-sm', [
           div(classes: 'flex items-center gap-3', [
             img(
-              src: Profile.portrait,
+              src: Profile.avatar,
               alt: Profile.name,
               classes: 'w-16 h-16 rounded-full object-cover shadow-sm',
             ),

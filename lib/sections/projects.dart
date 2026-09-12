@@ -26,6 +26,7 @@ class Projects extends StatelessComponent {
         ),
         _pannaseche(),
         _pressfit(),
+        _dial4242(),
         _payments(),
         _alsoBuilt(),
       ],
@@ -195,24 +196,27 @@ class Projects extends StatelessComponent {
             extra: 'px-6 py-2.5'),
         quietButton('On the App Store', pressfitAppStoreDeveloper, 'arrow_outward'),
       ],
-      extra: _appSuite(),
+      extra: _appSuite(pressfitApps, 'The apps I look after'),
     );
   }
 
-  /// The five apps, each with whichever store listings are actually live.
-  Component _appSuite() {
-    return div(classes: 'flex flex-col gap-space-md border-t border-outline-variant/40 pt-space-lg', [
-      div(classes: 'flex items-center gap-2', [
-        icon('apps', classes: 'text-[18px] text-primary'),
-        span(
-          classes: 'font-label-md text-label-md text-on-surface-variant uppercase tracking-wider',
-          [.text('The apps I look after')],
-        ),
-      ]),
-      div(classes: 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3', [
-        for (final app in pressfitApps) _appCard(app),
-      ]),
-    ]);
+  /// The apps in a client's suite, each with whichever store listings are live.
+  Component _appSuite(List<ClientApp> apps, String label) {
+    return div(
+      classes: 'flex flex-col gap-space-md border-t border-outline-variant/40 pt-space-lg',
+      [
+        div(classes: 'flex items-center gap-2', [
+          icon('apps', classes: 'text-[18px] text-primary'),
+          span(
+            classes: 'font-label-md text-label-md text-on-surface-variant uppercase tracking-wider',
+            [.text(label)],
+          ),
+        ]),
+        div(classes: 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3', [
+          for (final app in apps) _appCard(app),
+        ]),
+      ],
+    );
   }
 
   Component _appCard(ClientApp app) {
@@ -264,10 +268,105 @@ class Projects extends StatelessComponent {
     );
   }
 
+  // --- Dial4242 legacy maintenance -----------------------------------------
+
+  Component _dial4242() {
+    return _shell(
+      mockup: _phone([
+        div(classes: 'flex items-center justify-between pt-2', [
+          div(classes: 'flex items-center gap-2', [
+            icon('emergency', classes: 'text-[20px] text-primary'),
+            span(
+              classes: 'font-title-md text-label-md text-on-surface font-bold tracking-tight',
+              [.text('DIAL 4242')],
+            ),
+          ]),
+          span(
+            classes: 'px-2 py-0.5 rounded-full bg-primary-fixed/50 text-on-primary-fixed '
+                'font-label-sm text-[11px]',
+            [.text('On the way')],
+          ),
+        ]),
+        div(classes: 'p-3.5 rounded-2xl bg-surface-container-low flex flex-col gap-1', [
+          span(
+            classes: 'font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider',
+            [.text('Arriving in')],
+          ),
+          div(
+            classes: 'font-headline-sm text-headline-sm text-on-surface font-extrabold',
+            [.text('6 min')],
+          ),
+          div(
+            classes: 'font-body-sm text-body-sm text-outline',
+            [.text('MH-04 · Basic Life Support')],
+          ),
+        ]),
+        div(
+          classes: 'p-3 rounded-xl bg-surface-container-lowest flex items-center justify-between '
+              'shadow-xs',
+          [
+            div(classes: 'flex items-center gap-2.5', [
+              div(
+                classes: 'w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant '
+                    'flex items-center justify-center',
+                [icon('person', classes: 'text-[18px]')],
+              ),
+              div(classes: 'flex flex-col', [
+                span(
+                  classes: 'font-label-md text-label-md text-on-surface font-bold',
+                  [.text('Driver assigned')],
+                ),
+                span(
+                  classes: 'font-body-sm text-[12px] text-outline',
+                  [.text('Estimated fare ₹1,250')],
+                ),
+              ]),
+            ]),
+            icon('call', classes: 'text-[18px] text-primary'),
+          ],
+        ),
+        div(
+          classes: 'w-full py-2.5 rounded-xl bg-primary text-on-primary font-label-md '
+              'text-label-md flex items-center justify-center gap-2 mt-1',
+          [
+            icon('my_location', classes: 'text-[16px]'),
+            span([.text('Track Ambulance')]),
+          ],
+        ),
+      ]),
+      tags: const [
+        ('Client Work', Tone.primary),
+        ('Legacy Maintenance', Tone.neutral),
+        ('Native Android', Tone.secondary),
+        ('Java + XML', Tone.neutral),
+      ],
+      title: 'Dial4242 — Ambulance Booking Platform',
+      lead: [
+        .text('An emergency service that books and tracks the nearest ambulance, with apps for '
+            'riders, drivers and fleet owners. This one is older than my Flutter work and stays '
+            'that way: '),
+        strong([.text('native Android, Java and XML')]),
+        .text('. I keep it running — fixing bugs and adding small features to a live medical '
+            'service without destabilising a codebase I did not write.'),
+      ],
+      metrics: const [
+        ('10K+', 'Rider installs', Tone.primary),
+        ('3 Apps', 'Rider · Driver · Owner', Tone.secondary),
+        ('Java + XML', 'Native Android', Tone.tertiary),
+      ],
+      actions: [
+        primaryButton('See them on Google Play', dial4242PlayDeveloper, 'arrow_outward',
+            extra: 'px-6 py-2.5'),
+      ],
+      extra: _appSuite(dial4242Apps, 'The three apps'),
+    );
+  }
+
   // --- Payments ------------------------------------------------------------
 
   Component _payments() {
     return _shell(
+      mockupFirst: false,
       mockup: _phone(padding: 'p-5 gap-4', [
         div(classes: 'flex justify-center pt-2', [
           div(
@@ -327,7 +426,6 @@ class Projects extends StatelessComponent {
       metrics: const [
         ('HyperSDK', 'HDFC / JustPay', Tone.primary),
         ('In-App', 'Native Checkout', Tone.secondary),
-        ('Live', 'Production Traffic', Tone.tertiary),
       ],
       actions: [
         quietButton('Ask about integrations', '#contact', 'arrow_forward'),

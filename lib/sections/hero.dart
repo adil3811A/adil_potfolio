@@ -63,8 +63,8 @@ class Hero extends StatelessComponent {
         classes: 'font-body-lg text-body-lg text-on-surface-variant max-w-xl leading-relaxed',
         [
           .text('Application Development Engineer at Codes ’n’ Coffee Tech. I build and ship '
-              'production Flutter apps for Android and iOS — five live client apps, plus one I '
-              'architected, published and maintain entirely on my own.'),
+              'production mobile apps for Android and iOS — eight live client apps across two '
+              'clients, plus one I architected, published and maintain entirely on my own.'),
         ],
       ),
       div(classes: 'flex flex-wrap items-center gap-space-md pt-space-xs', [

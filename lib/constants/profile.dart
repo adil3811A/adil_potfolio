@@ -19,7 +19,7 @@ class Profile {
 
   /// TODO: replace with a real photo — this is still the AI-generated
   /// placeholder that came with the Stitch design.
-  static const portrait = 'images/portrait.jpg';
+  static const portrait = 'images/portrait.png';
 
   /// Live store listings for PannaseCHE.
   static const pannasechePlayStore =
@@ -66,7 +66,7 @@ class Stat {
 
 const heroStats = [
   Stat('500+', 'App Downloads', Tone.primary),
-  Stat('5 Live', 'Client Apps', Tone.secondary),
+  Stat('8 Live', 'Client Apps', Tone.secondary),
   Stat('1+ Year', 'In Production', Tone.neutral),
 ];
 
@@ -144,6 +144,38 @@ const pressfitApps = [
     body: 'Attachments without the desk: pick the invoice, capture the image, sync and upload.',
     play: 'https://play.google.com/store/apps/details?id=com.pressfit.uploads',
     note: 'Android',
+  ),
+];
+
+/// --- Dial4242 ---------------------------------------------------------------
+/// Legacy native-Android (Java/XML) ambulance platform under maintenance.
+
+const dial4242PlayDeveloper = 'https://play.google.com/store/apps/developer?id=Dial4242&hl=en_IN';
+
+const dial4242Apps = [
+  ClientApp(
+    name: 'DIAL 4242',
+    icon: 'emergency',
+    body: 'The rider app: book and track the nearest ambulance, see the estimated fare and time '
+        'to arrival, and pay digitally — for emergencies and for scheduled trips alike.',
+    play: 'https://play.google.com/store/apps/details?id=com.ambulance.dial4242.user',
+    note: '10K+ installs',
+  ),
+  ClientApp(
+    name: 'DIAL 4242 — Driver',
+    icon: 'local_shipping',
+    body: 'Drivers take fare requests from riders, get the best route to the destination, and '
+        'check fare history and what is payable or receivable.',
+    play: 'https://play.google.com/store/apps/details?id=com.ambulance.dial4242.driver',
+    note: '4.6 ★',
+  ),
+  ClientApp(
+    name: 'Dial 4242 — Owner',
+    icon: 'dashboard',
+    body: 'Fleet owners track their own ambulances, review every trip their drivers have run, '
+        'and settle payments — without buying separate GPS hardware.',
+    play: 'https://play.google.com/store/apps/details?id=com.ambulance.dial4242.owner',
+    note: '5.0 ★',
   ),
 ];
 
@@ -228,6 +260,9 @@ const roles = [
           'release, now live on both stores with 500+ downloads.',
       'Integrated the HDFC HyperSDK payment gateway into a Flutter app for secure in-app '
           'transactions.',
+      'Maintain Dial4242, a legacy native Android (Java + XML) ambulance-booking platform of '
+          'three apps — rider, driver and fleet owner — shipping bug fixes and small features to '
+          'a live emergency service.',
       'Leading the ground-up rewrite of a legacy native Android app in React Native, replacing an '
           'unstable, bug-prone build with a maintainable cross-platform architecture.',
       'Built a GitHub Actions CI/CD pipeline that compiles APKs and App Bundles and delivers them '

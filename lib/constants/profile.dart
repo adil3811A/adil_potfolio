@@ -19,7 +19,7 @@ class Profile {
 
   /// Gemini-backed chat API behind the assistant widget.
   /// `POST {chatApi}/api/chat/sync` -> `{ text, offTopic? }`.
-  static const chatApi = 'https://chat-bot-potfolio-git-main-adil3811as-projects.vercel.app/';
+  static const chatApi = 'https://chat-bot-potfolio.vercel.app';
 
   /// Square crop used in the hero card and as the social-preview image.
   /// Both crops are generated from `assets/portrait-source.png`.

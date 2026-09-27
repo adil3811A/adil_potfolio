@@ -89,6 +89,21 @@ Component quietButton(String label, String href, String iconName, {String extra 
   );
 }
 
+/// Red pill-shaped button used for YouTube demo links.
+Component youtubeButton(String label, String href, {String extra = ''}) {
+  return a(
+    href: href,
+    target: Target.blank,
+    classes: 'inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-red-600 text-white '
+        'font-label-md text-label-md hover:bg-red-500 transition-all '
+        'shadow-[0_4px_20px_-4px_rgba(220,38,38,0.45)] hover:-translate-y-0.5 $extra',
+    [
+      icon('smart_display', classes: 'text-[18px]'),
+      span([.text(label)]),
+    ],
+  );
+}
+
 /// Section heading block: eyebrow + title + optional lead paragraph.
 Component sectionHeading({
   required String badge,

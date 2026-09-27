@@ -20,15 +20,125 @@ class Projects extends StatelessComponent {
           badge: 'Proven Work',
           badgeIcon: 'apps',
           title: 'Apps in Production',
-          lead: 'Cross-platform apps I have built, published and keep running — one published '
-              'entirely on my own, five maintained for a client every day.',
+          lead: 'Cross-platform apps I have built, published and keep running — DeGeneral, my '
+              'flagship on-device AI journal, PannaseCHE published entirely on my own, and five '
+              'apps maintained for a client every day.',
           tone: Tone.secondary,
         ),
+        _degeneral(),
         _pannaseche(),
         _pressfit(),
         _dial4242(),
         _payments(),
         _alsoBuilt(),
+      ],
+    );
+  }
+
+  // --- DeGeneral — flagship -------------------------------------------------
+
+  Component _degeneral() {
+    return _shell(
+      mockup: _phone([
+        // App bar with the privacy badge.
+        div(classes: 'flex items-center justify-between pt-2', [
+          icon('menu', classes: 'text-[20px] text-on-surface'),
+          span(
+            classes: 'font-title-md text-label-md text-on-surface font-bold tracking-tight',
+            [.text('DeGeneral')],
+          ),
+          div(
+            classes: 'flex items-center gap-1 bg-primary-fixed/50 px-2 py-0.5 rounded-full '
+                'text-on-primary-fixed font-label-sm text-[11px]',
+            [
+              icon('lock', classes: 'text-[13px] text-primary'),
+              span([.text('On-device')]),
+            ],
+          ),
+        ]),
+        // Composer card: title, moods, entry.
+        div(classes: 'p-3.5 rounded-2xl bg-surface-container-low flex flex-col gap-2', [
+          div(
+            classes: 'flex justify-between items-center text-label-sm font-label-sm text-outline',
+            [
+              span([.text('New entry')]),
+              span(classes: 'text-primary font-bold', [.text('112 words')]),
+            ],
+          ),
+          p(
+            classes: 'font-title-md text-label-md text-on-surface pt-1 leading-snug',
+            [.text('A quiet win I nearly forgot to write down')],
+          ),
+          p(
+            classes: 'font-body-sm text-body-sm text-on-surface-variant leading-relaxed',
+            [.text('Mood: Reflective · Today · #work, #smallwins — the kind of day that only '
+                'makes sense on paper.')],
+          ),
+        ]),
+        // Local AI actions.
+        div(classes: 'flex flex-col gap-2', [
+          _aiAction('auto_awesome', 'Refine grammar & spelling', 'Gemma 3 1B · 2.1s'),
+          _aiAction('forum', 'Talk it through in Chat', 'Reads your last 3 entries'),
+        ]),
+        div(
+          classes: 'w-full py-2.5 rounded-xl bg-primary text-on-primary font-label-md '
+              'text-label-md text-center mt-1',
+          [.text('Save Entry')],
+        ),
+      ]),
+      tags: const [
+        ('Flagship', Tone.primary),
+        ('Kotlin Multiplatform', Tone.neutral),
+        ('On-Device AI', Tone.secondary),
+        ('Play Store', Tone.tertiary),
+      ],
+      title: 'DeGeneral — Private Journal with an AI That Never Leaves the Phone',
+      lead: [
+        .text('My flagship build. A private journal with an AI companion that runs '),
+        strong([.text('entirely on your phone')]),
+        .text(': Gemma 3 1B runs on the phone’s own CPU to tidy your writing, suggest '
+            'titles and talk things through using your last three entries. No account, no '
+            'server, no cloud sync — the only network touch is a one-time, SHA-256-verified '
+            'model download. Built with Kotlin Multiplatform and Compose Multiplatform, '
+            'feature-first with a hand-rolled DI container.'),
+      ],
+      metrics: const [
+        ('100%', 'On-device, no cloud', Tone.primary),
+        ('Gemma 3 1B', 'Runs on the phone CPU', Tone.secondary),
+        ('806 MB', 'Verified model install', Tone.tertiary),
+      ],
+      actions: [
+        primaryButton('Get it on Google Play', Profile.degeneralPlayStore, 'shop',
+            extra: 'px-6 py-2.5'),
+        youtubeButton('Watch the demo', Profile.degeneralDemo),
+        quietButton('Read the source', Profile.degeneralRepo, 'code'),
+      ],
+    );
+  }
+
+  Component _aiAction(String iconName, String label, String note) {
+    return div(
+      classes: 'p-2.5 rounded-xl bg-surface-container-lowest flex items-center justify-between '
+          'shadow-xs',
+      [
+        div(classes: 'flex items-center gap-2.5', [
+          div(
+            classes: 'w-8 h-8 rounded-full bg-tertiary-fixed/50 text-tertiary flex items-center '
+                'justify-center',
+            [icon(iconName, classes: 'text-[16px]')],
+          ),
+          div(classes: 'flex flex-col', [
+            span(
+              classes: 'font-label-md text-label-md text-on-surface font-bold',
+              [.text(label)],
+            ),
+            span(
+              classes: 'font-body-sm text-[12px] text-outline',
+              [.text(note)],
+            ),
+          ]),
+        ]),
+        icon('arrow_forward', classes: 'text-[18px] text-primary'),
       ],
     );
   }

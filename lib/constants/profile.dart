@@ -32,6 +32,12 @@ class Profile {
   static const pannasechePlayStore =
       'https://play.google.com/store/apps/details?id=com.pannaseche.gate&hl=en';
   static const pannasecheAppStore = 'https://apps.apple.com/us/app/pannaseche/id6762131658';
+
+  /// DeGeneral — the flagship. Play Store listing, repo and the YouTube demo.
+  static const degeneralPlayStore =
+      'https://play.google.com/store/apps/details?id=com.adll.de_general';
+  static const degeneralRepo = 'https://github.com/adil3811A/DeGeneral';
+  static const degeneralDemo = 'https://youtu.be/sOP7uRXKzjo';
 }
 
 /// A link in the desktop header / mobile bottom bar.
@@ -270,6 +276,9 @@ const roles = [
     points: [
       'Maintain and enhance five production Flutter apps for client Pressfit Electrical Solutions '
           '— Connect, On-The-Go, Vision, Uploads and Catalogs — across Android and iOS.',
+      'Built DeGeneral, a flagship Kotlin Multiplatform journal app with a fully on-device AI '
+          'companion (Gemma 3 1B) — no server, no cloud, privacy by design — published on the '
+          'Play Store.',
       'Built and independently published PannaseCHE end to end: architecture, development and '
           'release, now live on both stores with 500+ downloads.',
       'Integrated the HDFC HyperSDK payment gateway into a Flutter app for secure in-app '

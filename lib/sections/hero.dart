@@ -166,16 +166,16 @@ class Hero extends StatelessComponent {
                 div(
                   classes: 'w-10 h-10 rounded-xl bg-primary-fixed text-on-primary-fixed '
                       'flex items-center justify-center',
-                  [icon('phone_iphone', classes: 'text-[22px]')],
+                  [icon('auto_awesome', classes: 'text-[22px]')],
                 ),
                 div(classes: 'flex flex-col', [
                   span(
                     classes: 'font-title-md text-label-md text-on-surface font-bold',
-                    [.text('PannaseCHE')],
+                    [.text('DeGeneral')],
                   ),
                   span(
                     classes: 'font-body-sm text-body-sm text-on-surface-variant',
-                    [.text('Live on Play Store & App Store')],
+                    [.text('Flagship · AI journal, 100% on-device')],
                   ),
                 ]),
               ]),
@@ -183,8 +183,8 @@ class Hero extends StatelessComponent {
                 classes: 'flex items-center gap-1 px-2.5 py-1 rounded-full '
                     'bg-surface-container-lowest text-primary font-label-sm text-label-sm shadow-xs',
                 [
-                  icon('download', classes: 'text-[14px]'),
-                  span([.text('500+')]),
+                  icon('lock', classes: 'text-[14px]'),
+                  span([.text('Private')]),
                 ],
               ),
             ],

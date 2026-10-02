@@ -61,8 +61,8 @@ const _enhancements = r'''
   window.addEventListener('resize', sync);
 
   // --- Portfolio assistant ------------------------------------------------
-  // Interface only for now: the opening exchange is scripted and anything the
-  // visitor sends gets a reply pointing at Adil's real inbox.
+  // The opening exchange is scripted; anything the visitor sends is streamed
+  // back from the chat API. If that fails, the reply points at Adil's inbox.
   const widget = document.getElementById('chat-widget');
   const panel = document.getElementById('chat-panel');
   const chatLog = document.getElementById('chat-log');
@@ -140,11 +140,6 @@ const _enhancements = r'''
     return bubble;
   };
 
-  const addAnswer = (text) => {
-    botBubble().appendChild(node('span', '', text));
-    scrollToEnd();
-  };
-
   // Used whenever the answer does not arrive — the question still gets to Adil.
   const addFallback = (question, reason) => {
     const bubble = botBubble();
@@ -181,28 +176,82 @@ const _enhancements = r'''
     addVisitorMessage(question);
     const typing = addTyping();
 
+    // Idle timeout: restarted on every chunk, so a long answer that keeps
+    // streaming is never cut off — only a stalled connection is.
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 45000);
+    let timeout;
+    const armTimeout = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => controller.abort(), 45000);
+    };
+    armTimeout();
+
+    const rateLimited = 'I have hit my request limit for the moment — give it a minute and ask again. Or send it straight to Adil:';
+    let answer = null; // the <span> the streamed text is written into
 
     try {
-      const response = await fetch(api + '/api/chat/sync', {
+      const response = await fetch(api + '/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: question }),
         signal: controller.signal,
       });
-      const payload = await response.json().catch(() => null);
-      typing.remove();
-      if (response.ok && payload && payload.text) {
-        addAnswer(payload.text);
-      } else if (response.status === 429) {
-        addFallback(question, 'I have hit my request limit for the moment — give it a minute and ask again. Or send it straight to Adil:');
-      } else {
-        addFallback(question);
+      if (!response.ok || !response.body) {
+        typing.remove();
+        addFallback(question, response.status === 429 ? rateLimited : undefined);
+        return;
       }
+
+      // The reply arrives as Server-Sent Events: `data: {"text":"..."}\n\n`
+      // frames, closed by `data: [DONE]`. A network chunk can end mid-frame,
+      // so keep the unfinished tail in `buffer` until the rest arrives.
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        armTimeout();
+        buffer += decoder.decode(value, { stream: true });
+        const frames = buffer.split('\n\n');
+        buffer = frames.pop();
+
+        for (const frame of frames) {
+          const line = frame.trim();
+          if (!line.startsWith('data:')) continue;
+          const data = line.slice(5).trim();
+          if (data === '[DONE]') continue;
+
+          const message = JSON.parse(data);
+          if (message.error) {
+            const error = new Error(message.detail || message.error);
+            error.status = message.status;
+            throw error;
+          }
+          if (!message.text) continue;
+
+          // First token: swap the typing dots for a real bubble.
+          if (!answer) {
+            typing.remove();
+            answer = node('span', 'whitespace-pre-wrap');
+            botBubble().appendChild(answer);
+          }
+          answer.textContent += message.text; // textContent, never innerHTML
+          scrollToEnd();
+        }
+      }
+
+      if (!answer) throw new Error('Empty reply');
     } catch (error) {
       typing.remove();
-      addFallback(question);
+      if (answer) {
+        // Part of the answer already showed — keep it rather than replace it.
+        answer.parentElement.appendChild(node('span', 'text-[11px] text-outline italic', '(The answer was cut off — try asking again.)'));
+        scrollToEnd();
+      } else {
+        addFallback(question, error.status === 429 ? rateLimited : undefined);
+      }
     } finally {
       clearTimeout(timeout);
       if (sendButton) sendButton.disabled = false;

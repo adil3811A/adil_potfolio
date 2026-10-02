@@ -108,7 +108,7 @@ class Projects extends StatelessComponent {
         ('806 MB', 'Verified model install', Tone.tertiary),
       ],
       actions: [
-        primaryButton('Get it on Google Play', Profile.degeneralPlayStore, 'shop',
+        primaryButton('Get it on Google Play (under review)', Profile.degeneralPlayStore, 'shop',
             extra: 'px-6 py-2.5'),
         youtubeButton('Watch the demo', Profile.degeneralDemo),
         quietButton('Read the source', Profile.degeneralRepo, 'code'),
@@ -205,12 +205,12 @@ class Projects extends StatelessComponent {
       lead: [
         .text('A GATE Chemical Engineering exam-prep app I owned end to end — architecture, '
             'development and release — now live on both stores with '),
-        strong([.text('500+ downloads')]),
+        strong([.text('1K+ downloads')]),
         .text('. Topic-wise practice questions, timed mock tests, previous-year question banks '
             'and performance analytics, with content delivered through a backend API.'),
       ],
       metrics: const [
-        ('500+', 'Downloads', Tone.primary),
+        ('1K+', 'Downloads', Tone.primary),
         ('2 Stores', 'Android + iOS', Tone.secondary),
         ('End to End', 'Solo Ownership', Tone.tertiary),
       ],

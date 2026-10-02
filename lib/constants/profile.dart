@@ -18,7 +18,7 @@ class Profile {
   static const linkedin = 'https://www.linkedin.com/in/adil3811k/';
 
   /// Gemini-backed chat API behind the assistant widget.
-  /// `POST {chatApi}/api/chat/sync` -> `{ text, offTopic? }`.
+  /// `POST {chatApi}/api/chat` -> SSE stream of `data: {"text":"..."}` frames.
   static const chatApi = 'https://chat-bot-potfolio.vercel.app';
 
   /// Square crop used in the hero card and as the social-preview image.
@@ -78,7 +78,7 @@ class Stat {
 }
 
 const heroStats = [
-  Stat('500+', 'App Downloads', Tone.primary),
+  Stat('1K+', 'App Downloads', Tone.primary),
   Stat('8 Live', 'Client Apps', Tone.secondary),
   Stat('1+ Year', 'In Production', Tone.neutral),
 ];
@@ -280,7 +280,7 @@ const roles = [
           'companion (Gemma 3 1B) — no server, no cloud, privacy by design — published on the '
           'Play Store.',
       'Built and independently published PannaseCHE end to end: architecture, development and '
-          'release, now live on both stores with 500+ downloads.',
+          'release, now live on both stores with 1K+ downloads.',
       'Integrated the HDFC HyperSDK payment gateway into a Flutter app for secure in-app '
           'transactions.',
       'Maintain Dial4242, a legacy native Android (Java + XML) ambulance-booking platform of '

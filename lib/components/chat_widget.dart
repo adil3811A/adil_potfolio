@@ -112,7 +112,7 @@ class ChatWidget extends StatelessComponent {
           span([
             .text('👋 Hi! I’m Adil’s portfolio assistant. Adil is an '),
             strong([.text('Application Development Engineer')]),
-            .text(' working in Flutter and native Android — 1+ year in production, 500+ downloads '
+            .text(' working in Flutter and native Android — 1+ year in production, 1K+ downloads '
                 'on an app he published solo, and eight live client apps. How can I help your '
                 'hiring team?'),
           ]),
@@ -130,7 +130,7 @@ class ChatWidget extends StatelessComponent {
           ]),
           ul(classes: 'list-none pl-1 flex flex-col gap-1 text-[13px] text-on-surface-variant', [
             for (final (label, detail) in const [
-              ('PannaseCHE:', '500+ downloads, published solo on both stores.'),
+              ('PannaseCHE:', '1K+ downloads, published solo on both stores.'),
               ('Pressfit:', '5 live B2B Flutter apps, maintained daily.'),
               ('Dial4242:', 'legacy native Android ambulance platform, 3 apps.'),
               ('Payments:', 'HDFC HyperSDK (JustPay) running in production.'),
